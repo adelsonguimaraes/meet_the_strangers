@@ -8,41 +8,71 @@
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-    <div class="main_container">
-        <div class="dashboard_container">
-            <div class="logo_container">
-                <img src="./utils/images/logo.png">
+    <section>
+        <div class="menu">
+            <div class="menu-action">
+                <a title="Abrir menu">
+                    <img src="./utils/images/menu_action.png">
+                </a>
             </div>
-            <div>
-                <div class="description_container">
-                    <p class="description_container_paragraph">
-                        Talk with other user bt passing his personal code or talk with strangers
-                    </p>
-                </div>
-                <div class="personal_code_container">
-                    <div class="personal_code_title_container">
-                        <p class="personal_code_title_paragraph">
-                            Your personal code
-                        </p>
-                    </div>
-                    <div class="personal_code_value_container">
-                        <p class="personal_code_value_paragraph" id="personal_code_paragraph">DDDDD</p>
-                        <button class="personal_code_copy_button" id="personal_code_copy_button">
-                            <img src="./utils/images/copyButton.png">
-                        </button>
-                    </div>
-                    <div class="personal_code_connecting_container">
-                        <p class="personal_code_connecting_paragraph">Personal Code</p>
-                        <div class="personal_code_connecting_input_container">
-                            <input type="text" class="personal_code_input" id="personal_code_input">
+            <div class="logo">
+                <img src="./utils/images/coffee_room_logo.png">
+            </div>
+            <div class="comunicacao">
+                <div>
+                    <p>Envie seu código para outro usuário para iniciar uma conversa!</p>
+                    <div class="codigo">
+                        <p>Seu Código Pessoal</p>
+                        <div>
+                            <a>DDD</a>
+                            <button class="btn-copy" title="Copiar código">
+                                <img src="./utils/images/copyButton.png">
+                            </button>
                         </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="codigo-externo">
+                        <p>Insira o código do usuário</p>
+                        <input type="text">
+                        <div class="grupo-botao">
+                            <button>
+                                <div><img src="./utils/images/chatButton.png"></div>
+                                Chat
+                            </button>
+                            <button>
+                                <div><img src="./utils/images/videoButton.png"></div>
+                                Vídeo
+                            </button>
+                        </div>
+                    </div>
+                    <div class="desconhecido">
+                        <p>Desconhecido</p>
+                        <div class="grupo-botao">
+                            <button>
+                                <div><img src="./utils/images/chatButton.png"></div>
+                                Chat
+                            </button>
+                            <button>
+                                <div><img src="./utils/images/videoButton.png"></div>
+                                Vídeo
+                            </button>
+                        </div>
+                        <label for="">
+                            <input type="checkbox">
+                            Permitir conexão com desconhecidos
+                        </label>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="call_container"></div>
-        <div class="messenger_container"></div>
-    </div>
+        <div class="center">
+            centro
+        </div>
+        <div class="chatbox">
+            chatbox
+        </div>
+    </section>
     
     <script src="/socket.io/socket.io.js"></script>
     <script src="./js/main.js" type="module"></script>

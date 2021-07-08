@@ -8,3 +8,13 @@ socket.on('connect', () => {
     console.log('succesfully connected to socket.io server'); 
     console.log(socket.id );
 });
+
+document.querySelector('.menu-action').addEventListener('click', e => {
+    const menu = document.querySelector('.menu');
+    const cls = Array.from(menu.classList).filter(e => e==='menu-show');
+    if (cls.length>0) {
+        menu.classList.remove('menu-show');
+     }else{
+        menu.classList.add('menu-show');
+     }
+});
