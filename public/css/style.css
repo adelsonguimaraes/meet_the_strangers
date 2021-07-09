@@ -25,6 +25,7 @@ section {
   align-items: center;
   flex-direction: column;
   justify-content: space-between;
+  z-index: 3;
 }
 .menu-show {
   left: 0;
@@ -130,16 +131,150 @@ section {
 }
 .menu .comunicacao .desconhecido label {
   padding: 5px 0;
+  user-select: none;
 }
 .menu .comunicacao .desconhecido input[type=checkbox] {
   background-color: rgba(127, 150, 255, 0.548);
   border-width: 0.1px ;
 }
+
+/* Centro */
 .center {
   flex: 1;
   height: inherit;
   background-color: #C4C4C4;
+  padding: 50px 40px;
 }
+.center .box_video {
+  position: relative;
+  background-color: #313131;
+  height: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.center .box_video .video_remote {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.center .box_video .no_call {
+  position: absolute;
+  height: 100%;
+  z-index: 1;
+  width: 100%;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #672314 0%, #A44631 100%);
+}
+.center .box_video .no_call_show {
+  display: flex;
+}
+.center .box_video .no_call img {
+  width: 350px;
+}
+.center .box_video .no_call p {
+  font-size: 68px;
+  font-weight: bold;
+  color: #fff;
+}
+.center .box_video .box_video_small {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 250px;
+  height: 200px;
+  border-radius: 5px;
+  background-color: #212121;
+  border-color: #fff;
+  border-style: solid;
+  border-width: 3px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.center .box_video .box_video_small .video_local {
+  /* width: inherit; */
+  height: inherit;
+}
+.center .box_video .record_actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px;
+  background: rgba(173, 173, 173, 0.76);
+  border-radius: 10px;
+  display: none;
+}
+.center .box_video .record_actions_show {
+  display: block;
+}
+.center .box_video .record_actions ul{
+  list-style: none;
+}
+.center .box_video .record_actions ul li {
+  display: inline-block;
+}
+.center .box_video .record_actions ul li button {
+  padding: 10px;
+  background-color: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.center .box_video .record_actions ul li button:hover {
+  background-color: rgba(255, 255, 255, 0.199);
+}
+.center .box_video .call_actions {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  padding: 20px 0;
+}
+.center .box_video .call_actions ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+}
+.center .box_video .call_actions ul li {
+  display: inline;
+}
+.center .box_video .call_actions .btn_red {
+  background-color: rgb(154 60 60) !important;
+}
+.center .box_video .call_actions button {
+  padding: 10px;
+  border-radius: 50px;
+  border-width: 0px;
+  background: rgba(129, 129, 129, 0.71);
+  border: 0.758889px solid #FFFFFF;
+  box-sizing: border-box;
+  margin: 0 10px;
+  cursor: pointer;
+}
+.center .box_video .call_actions button:hover {
+  background-color: rgba(129, 129, 129, 0.877);
+}
+.center .box_video .call_actions .call {
+  width: 100px;
+  border-radius: 5px;
+  padding: 15px 10px;
+  background-color: #9A3C3C;
+}
+.center .box_video .call_actions .call:hover {
+  background-color: #b64545;
+}
+
+/* ChatBox */
+
 .chatbox {
   width: 290px;
   height: inherit;

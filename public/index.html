@@ -24,7 +24,7 @@
                     <div class="codigo">
                         <p>Seu Código Pessoal</p>
                         <div>
-                            <a>DoC78SIBQh</a>
+                            <a id="personal_code">DoC78SIBQh</a>
                             <button class="btn-copy" title="Copiar código">
                                 <img src="./utils/images/copyButton.png">
                             </button>
@@ -34,13 +34,13 @@
                 <div>
                     <div class="codigo-externo">
                         <p>Insira o código do usuário</p>
-                        <input type="text">
+                        <input type="text" id="personal_code_input">
                         <div class="grupo-botao">
-                            <button>
+                            <button onclick="VIEW.connectingChat()">
                                 <div><img src="./utils/images/chatButton.png"></div>
                                 Chat
                             </button>
-                            <button>
+                            <button onclick="VIEW.connectingVideo()">
                                 <div><img src="./utils/images/videoButton.png"></div>
                                 Vídeo
                             </button>
@@ -49,17 +49,17 @@
                     <div class="desconhecido">
                         <p>Desconhecido</p>
                         <div class="grupo-botao">
-                            <button>
+                            <button onclick="VIEW.connectingChatStanger()">
                                 <div><img src="./utils/images/chatButton.png"></div>
                                 Chat
                             </button>
-                            <button>
+                            <button onclick="VIEW.connectingVideoStanger()">
                                 <div><img src="./utils/images/videoButton.png"></div>
                                 Vídeo
                             </button>
                         </div>
-                        <label for="">
-                            <input type="checkbox">
+                        <label for="permitir">
+                            <input type="checkbox" name="permitir" id="permitir">
                             Permitir conexão com desconhecidos
                         </label>
                     </div>
@@ -67,7 +67,64 @@
             </div>
         </div>
         <div class="center">
-            centro
+            <div class="box_video">
+                <div class="no_call">
+                    <img src="./utils/images/coffee_room_logo.png">
+                    <p>CHAT E VÍDEO</p>
+                </div>
+                <video class="video_remote" src="./utils/v.mp4" autoplay muted></video>
+                <div class="box_video_small">
+                    <video class="video_local" src="./utils/v.mp4" autoplay muted></video>
+                </div>
+                <div class="record_actions">
+                    <ul>
+                        <li>
+                            <button>
+                                <img src="./utils/images/resume.png">
+                            </button>
+                        </li>
+                        <li>
+                            <button>
+                                <img src="./utils/images/pause.png">
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="VIEW.clickStopGravar()">
+                                <img src="./utils/images/stop.png">
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="call_actions">
+                    <ul>
+                        <li>
+                            <button class="mic" onclick="VIEW.clickMic()">
+                                <img src="./utils/images/mic.png">
+                            </button>
+                        </li>
+                        <li>
+                            <button class="foto">
+                                <img src="./utils/images/camera.png">
+                            </button>
+                        </li>
+                        <li>
+                            <button class="call">
+                                <img src="./utils/images/hangUp.png">
+                            </button>
+                        </li>
+                        <li>
+                            <button class="camera">
+                                <img src="./utils/images/switchCameraScreenSharing.png">
+                            </button>
+                        </li>
+                        <li>
+                            <button class="gravar" onclick="VIEW.clickGravar()">
+                                <img src="./utils/images/recordingStart.png">
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
         <div class="chatbox">
             chatbox
@@ -75,6 +132,7 @@
     </section>
     
     <script src="/socket.io/socket.io.js"></script>
+    <script src="./js/interface.js" type="text/javascript"></script>
     <script src="./js/main.js" type="module"></script>
 </body>
 </html>
