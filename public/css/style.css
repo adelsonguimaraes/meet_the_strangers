@@ -279,4 +279,68 @@ section {
   width: 290px;
   height: inherit;
   background-color: #616161;
+  /* padding: 10px; */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+}
+.chatbox ul {
+  list-style: none;
+  padding: 10px;
+  margin: 0;
+  height: inherit;
+  overflow: auto;
+}
+.chatbox ul li {
+  display: flex;
+  flex-direction: column;
+}
+.chatbox ul li div {
+  margin: 3px 0;
+}
+.chatbox ul li a{
+  padding: 10px;
+  background: linear-gradient(180deg, #E0E0E0 0%, rgba(224, 224, 224, 0.74) 100%);
+  border-radius: 11.3718px;
+  display: inline-block;
+  font-weight: 500;
+}
+.chatbox ul .local {
+  align-items: flex-end;
+}
+.chatbox ul .local a{
+  background: linear-gradient(180deg, #4998E0 0%, rgba(73, 152, 224, 0.68) 100%);
+}
+.chatbox ul li p {
+  color: #fff;
+  font-size: 14px;
+}
+
+/* input box */
+.chatbox .input_box {
+  padding: 5px;
+  margin: 10px;
+  background-color: #fff;
+  border-radius: 10px;
+  display: flex;
+}
+.chatbox .input_box input[type=text] {
+  border:none;
+  width: 100%;
+  padding: 0 5px;
+}
+.chatbox .input_box input:focus {
+  outline: none;
+}
+.chatbox .input_box button {
+  padding: 5px;
+  background: linear-gradient(180deg, #DD6B18 0%, #FFB950 100%);
+  border-radius: 6px;
+  border: none;
+  display: flex;
+  cursor: pointer;
+}
+.chatbox .input_box button:hover {
+  background: linear-gradient(180deg, #dd6a18c5 0%, #ffb950af 100%);
 }

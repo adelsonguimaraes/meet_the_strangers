@@ -2,6 +2,7 @@ class view {
     constructor () {
         this.PERSONAL_CODE = document.querySelector('#personal_code');
         this.EXTERNAL_CODE = document.querySelector('#personal_code_input');
+        this.CHATBOX = document.querySelector('.chatbox');
         this.RECORD_ACTIONS = document.querySelector('.record_actions');
         this.NO_CALL = document.querySelector('.no_call');
         
@@ -9,6 +10,7 @@ class view {
         this.CALL = false;
         this.MIC = true; // inicia ativado
         this.GRAVAR = false;
+        this.MSGS = [];
 
         // botoes
         this.BTN_MIC = document.querySelector('.mic');
@@ -58,6 +60,32 @@ class view {
         console.log('conectando ao video com desconhecido');
     }
 
+    // chat
+    addChatMensage (msg, local) {
+        this.MSGS.push(msg);
+        let li = document.createElement('li');
+        let date = new Date();
+        let h = date.getHours(); h = (h<10) ? ('0'+h) : h;
+        let m = date.getMinutes(); m = (m<10) ? ('0'+m) : m;
+        let s = date.getSeconds(); s = (s<10) ? ('0'+s) : s;
+        li.innerHTML = `
+            <div>
+                <a>${msg}</a>
+                <p>${h}:${m}:${s}</p>
+            </div>
+        `;
+        if (local) li.classList.add('local');
+        this.CHATBOX.querySelector('ul').appendChild(li);
+        this.CHATBOX.querySelector('ul').scrollTo({ top: this.CHATBOX.querySelector('ul').scrollHeight, behavior: 'smooth' })
+    }
+    getInputMsg () {
+        return this.CHATBOX.querySelector('input').value;
+    }
+    setInputMsg (msg) {
+        this.CHATBOX.querySelector('input').value = msg;
+        return this;
+    }
+
     // actions call
     clickMic () {
         // se o mic estiver ativo
@@ -86,6 +114,15 @@ class view {
             this.GRAVAR = false;
             console.log('parando gravação');
         }
+    }
+    clickEnviar () {
+        let msg = this.getInputMsg(); // recuperando a msg do input
+        if (msg==='') return false;
+        this.setInputMsg(''); // limpando a msg do input
+
+        console.log(msg);
+
+        this.addChatMensage(msg, true);
     }
 }
 const VIEW = new view();
