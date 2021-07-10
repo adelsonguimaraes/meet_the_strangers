@@ -4,6 +4,7 @@ class view {
         this.EXTERNAL_CODE = document.querySelector('#personal_code_input');
         this.CHATBOX = document.querySelector('.chatbox');
         this.RECORD_ACTIONS = document.querySelector('.record_actions');
+        this.TOAST = document.querySelector('.toast');
         this.NO_CALL = document.querySelector('.no_call');
         
         // stats
@@ -12,14 +13,80 @@ class view {
         this.GRAVAR = false;
         this.MSGS = [];
 
+        // status da aplicacao
+        this.state = {
+            socketID: null,
+            localStream: null,
+            remoteStream: null,
+            screenSharingStream: null,
+            allowConnectionsFromStrangers: false,
+            screenSharingActive: false
+        };
+
         // botoes
         this.BTN_MIC = document.querySelector('.mic');
         this.BTN_FOTO = document.querySelector('.foto');
         this.BTN_CALL = document.querySelector('.call');
         this.BTN_CAMERA = document.querySelector('.camera');
         this.BTN_GRAVAR = document.querySelector('.gravar');
-    
     }
+
+    setSocketID = (socketID) => {
+        this.state = {
+            ...this.state,
+            socketID,
+
+        };
+        this.setPersonalCode (socketID);
+    };
+
+    setLocalStream = (stream) => {
+        this.state = {
+            ...this.state,
+            localStream: stream
+        }
+    }
+
+    setAllowConnectionsFromStranges = (allowConnection) => {
+        this.state = {
+            ...this.state,
+            allowConnectionsFromStrangers: allowConnection
+        }
+    }
+
+    setScreenSharingActive = (screenSharingActive) => {
+        this.state = {
+            ...this.state,
+            screenSharingActive,
+        }
+    }
+
+    setScreenSharingStream = (stream) => {
+        this.state = {
+            ...this.state,
+            screenSharingStream: stream,
+        }
+    }
+
+    setRemoteStream = (stream) => {
+        this.state = {
+            ...this.state,
+            remoteStream: stream
+        }
+    }
+
+    getState = _=> {
+        return this.state;
+    }
+
+    toastShow = (msg) =>{
+        this.TOAST.innerHTML = msg;
+        this.TOAST.classList.add('toast_show');
+        setTimeout(_=>{
+            this.TOAST.classList.remove('toast_show');
+        }, 3000);
+    }
+
 
     // retornar o código pessoal contido no elemento
     getPersonalCode () {
@@ -84,6 +151,12 @@ class view {
     setInputMsg (msg) {
         this.CHATBOX.querySelector('input').value = msg;
         return this;
+    }
+
+    clickCopyPersonalCode = _=> {
+        const personalCode = this.getState().socketID;
+        navigator.clipboard && navigator.clipboard.writeText(personalCode);
+        this.toastShow('Código copiado!');
     }
 
     // actions call

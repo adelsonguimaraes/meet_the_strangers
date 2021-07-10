@@ -6,7 +6,7 @@ const socket = io('/');
 // quando o servidor socket responder que houve uma conexão com sucesso
 socket.on('connect', () => {
     console.log('succesfully connected to socket.io server'); 
-    console.log(socket.id );
+    VIEW.setSocketID(socket.id);
 });
 
 document.querySelector('.menu-action').addEventListener('click', e => {
