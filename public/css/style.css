@@ -138,6 +138,60 @@ section {
   border-width: 0.1px ;
 }
 
+/* Modal Chamada */
+.chamada {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #000000d4;
+  z-index: 10;
+  align-items: center;
+  justify-content: center;
+  display: none;
+}
+.chamada_show {
+  display: flex;
+}
+.chamada .content {
+  padding: 30px;
+  border-radius: 10px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.chamada .content p {
+  margin: 10px;
+  font-weight: bold;
+}
+.chamada .content .avatar {
+  padding: 30px;
+  background-color: #4998E0;
+  border-radius: 100%;
+  margin: 10px;
+}
+.chamada .content button {
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.chamada .content .btn_accept_call {
+  background-color: #5ba547;
+  border: 1px solid #3e9028;
+}
+.chamada .content .btn_accept_call:hover {
+  background-color: #6dc056;
+}
+.chamada .content .btn_reject_call {
+  background-color: #a55247;
+  border: 1px solid #864138;
+}
+.chamada .content .btn_reject_call:hover {
+  background-color: #c56c61;
+}
 /* Centro */
 .center {
   flex: 1;

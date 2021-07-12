@@ -6,6 +6,7 @@ class view {
         this.EXTERNAL_CODE = document.querySelector('#personal_code_input');
         this.CHATBOX = document.querySelector('.chatbox');
         this.RECORD_ACTIONS = document.querySelector('.record_actions');
+        this.CHAMADA_MODAL = document.querySelector('.chamada');
         this.MENU = document.querySelector('.menu');
         this.NO_CALL = document.querySelector('.no_call');
 
@@ -20,6 +21,7 @@ class view {
         this.MIC = true; // inicia ativado
         this.GRAVAR = false;
         this.MSGS = [];
+        this.AUDIO = null;
 
         // status da aplicacao
         this.state = {
@@ -40,6 +42,9 @@ class view {
         this.BTN_STOP_GRAVAR = document.querySelector('button.btn_stop_gravar');
         this.BTN_ENVIAR = document.querySelector('button.btn_enviar');
         this.BTN_CONNECTIONG_CHAT = document.querySelector('button.btn_connecting_chat');
+        this.BTN_CONNECTIONG_VIDEO = document.querySelector('button.btn_connecting_video');
+        this.BTN_ACCEPT_CALL = document.querySelector('button.btn_accept_call');
+        this.BTN_REJECT_CALL = document.querySelector('button.btn_reject_call');
 
         // açoes da tela
         this.toggleMenu();
@@ -49,6 +54,9 @@ class view {
         this.clickStopGravar();
         this.clickEnviar();
         this.connectingChat();
+        this.connectingVideo();
+        this.clickAcceptCall();
+        this.clickRejectCall();
     }
 
     // setando no state o id do socket
@@ -149,10 +157,12 @@ class view {
         });
     }
     connectingVideo =_=> {
-        if (this.CALL) return alert('Não permitido durante call.');
-        WEBRTC.sendPreOffer({
-            type: 'VIDEO',
-            cod: this.getExternalCode()
+        this.BTN_CONNECTIONG_VIDEO.addEventListener('click', _=> {
+            if (this.CALL) return alert('Não permitido durante call.');
+            WEBRTC.sendPreOffer({
+                type: 'VIDEO',
+                cod: this.getExternalCode()
+            });
         });
     }
     connectingChatStanger () {
@@ -162,6 +172,38 @@ class view {
     connectingVideoStanger () {
         if (this.CALL) return alert('Não permitido durante call.');
         console.log('conectando ao video com desconhecido');
+    }
+
+    showIncomingCallDialog = (TYPE, clickAcceptCallHandler, clickRejectCallHandler) => {
+        console.log("getting incoming call dialog");
+        this.CHAMADA_MODAL.classList.add('chamada_show');
+        this.AUDIO = new Audio('./../utils/sons/ringtone.mp3');
+        this.AUDIO.volume = 0.3;
+        this.AUDIO.loop = true;
+        this.AUDIO.play();
+
+        // tipo de chamada
+        this.CHAMADA_MODAL.querySelector('span.chamada_tipo').innerHTML = TYPE;
+
+        setTimeout(_=>{
+            this.rejectCall();
+            console.log('chamada perdida');
+        }, 30000);
+    }
+    clickAcceptCall =_=> {
+        this.BTN_ACCEPT_CALL.addEventListener('click', _=> {
+            console.log('chamada aceita');
+        });
+    }
+    clickRejectCall =_=> {
+        this.BTN_REJECT_CALL.addEventListener('click', _=> {
+            console.log('chamada rejeitada');
+            this.rejectCall();
+        });
+    }
+    rejectCall =_=> {
+        this.CHAMADA_MODAL.classList.remove('chamada_show');
+        this.AUDIO.pause();
     }
 
     // chat

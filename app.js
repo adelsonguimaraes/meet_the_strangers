@@ -23,10 +23,31 @@ io.on('connection', (socket) => {
     // adicioando os peers conectados
     connectedPeers.push(socket.id);
     console.log(connectedPeers);
-
+    
+    // recebendo a pre-oferta
     socket.on('pre-offer', (data) => {
-        console.log("pre-offer-came");
-        console.log(data);
+        const { COD, TYPE } = data;
+
+        // verificando pelo id da oferta
+        // se está conectado
+        const connectedPeer = connectedPeers.find((peerSocketID) => {
+            console.log(peerSocketID + ' - ' + COD);
+            return peerSocketID === COD;
+        });
+
+        console.log(connectedPeer);
+
+        // se estiver conectado
+        if (connectedPeer) {
+            
+            const data = {
+                callerSocketID: socket.id,
+                TYPE
+            };
+
+            // enviando a oferta para o dono do socketid
+            io.to(COD).emit("pre-offer", data);
+        }
     });
 
     // caso haja uma desconexão
@@ -35,12 +56,11 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('user disconnected');
 
-        const newConnectedPeers = connectedPeers.filter((peerSocketId) => {
-            peerSocketId !== socket.io;
-        });
+        const newConnectedPeers = connectedPeers.filter(
+            (peerSocketId) => peerSocketId !== socket.io
+        );
 
         connectedPeers = newConnectedPeers;
-        console.log(connectedPeers);
     });
 });
 

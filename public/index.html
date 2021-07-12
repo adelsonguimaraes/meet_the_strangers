@@ -10,6 +10,20 @@
 <body>
     <div class="toast">
     </div>
+    <div class="chamada">
+        <div class="content">
+            <p>Chamada de <span class="chamada_tipo"></span></p>
+            <img class="avatar" src="./utils/images/dialogAvatar.png">
+            <div class="buttons">
+                <button class="btn_accept_call">
+                    <img src="./utils/images/acceptCall.png">
+                </button>
+                <button class="btn_reject_call">
+                    <img src="./utils/images/rejectCall.png">
+                </button>
+            </div>
+        </div>
+    </div>
     <section>
         <div class="menu">
             <div class="menu-action">
@@ -42,7 +56,7 @@
                                 <div><img src="./utils/images/chatButton.png"></div>
                                 Chat
                             </button>
-                            <button onclick="VIEW.connectingVideo()">
+                            <button class="btn_connecting_video">
                                 <div><img src="./utils/images/videoButton.png"></div>
                                 Vídeo
                             </button>
