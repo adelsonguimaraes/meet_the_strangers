@@ -1,11 +1,18 @@
+import * as WEBRTC from "./webrtc.js";
+
 class view {
     constructor () {
         this.PERSONAL_CODE = document.querySelector('#personal_code');
         this.EXTERNAL_CODE = document.querySelector('#personal_code_input');
         this.CHATBOX = document.querySelector('.chatbox');
         this.RECORD_ACTIONS = document.querySelector('.record_actions');
-        this.TOAST = document.querySelector('.toast');
         this.NO_CALL = document.querySelector('.no_call');
+
+        this.TOAST = {
+            el: document.querySelector('.toast'),
+            show: false,
+            timer: null
+        }
         
         // stats
         this.CALL = false;
@@ -80,10 +87,16 @@ class view {
     }
 
     toastShow = (msg) =>{
-        this.TOAST.innerHTML = msg;
-        this.TOAST.classList.add('toast_show');
-        setTimeout(_=>{
-            this.TOAST.classList.remove('toast_show');
+        this.TOAST.el.innerHTML = msg;
+        this.TOAST.el.classList.add('toast_show');
+        if (this.TOAST.show) {
+            clearTimeout(this.TOAST.timer);
+            this.TOAST.timer = null;
+        }
+        this.TOAST.timer = setTimeout(_=>{
+            this.TOAST.el.classList.remove('toast_show');
+            clearTimeout(this.TOAST.timer);
+            this.TOAST.timer = null;
         }, 3000);
     }
 
@@ -110,13 +123,19 @@ class view {
         this.NO_CALL.classList.remove('no_call_show');
     }
 
-    connectingChat () {
+    connectingChat =_=> {
         if (this.CALL) return alert('Não permitido durante call.');
-        console.log('conectando ao chat externo ' + this.getExternalCode());
+        WEBRTC.sendPreOffer({
+            type: 'CHAT',
+            cod: this.getExternalCode()
+        });
     }
-    connectingVideo () {
+    connectingVideo =_=> {
         if (this.CALL) return alert('Não permitido durante call.');
-        console.log('conectando ao video externo ' + this.getExternalCode());
+        WEBRTC.sendPreOffer({
+            type: 'VIDEO',
+            cod: this.getExternalCode()
+        });
     }
     connectingChatStanger () {
         if (this.CALL) return alert('Não permitido durante call.');
@@ -192,10 +211,7 @@ class view {
         let msg = this.getInputMsg(); // recuperando a msg do input
         if (msg==='') return false;
         this.setInputMsg(''); // limpando a msg do input
-
-        console.log(msg);
-
         this.addChatMensage(msg, true);
     }
 }
-const VIEW = new view();
+export default new view();

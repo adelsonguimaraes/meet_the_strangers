@@ -305,6 +305,8 @@ section {
   border-radius: 11.3718px;
   display: inline-block;
   font-weight: 500;
+  max-width: 230px;
+  word-break: break-word; /* quebrando as palavras */
 }
 .chatbox ul .local {
   align-items: flex-end;

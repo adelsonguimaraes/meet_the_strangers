@@ -1,3 +1,6 @@
+import VIEW from './view.js';
+
+
 // quando colocamos apenas a / no lugar do host e porta (localhost:3000)
 // e estiver no mesmo diretório, ele encontrará
 // automaticamente a porta

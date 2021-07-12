@@ -24,6 +24,11 @@ io.on('connection', (socket) => {
     connectedPeers.push(socket.id);
     console.log(connectedPeers);
 
+    socket.on('pre-offer', (data) => {
+        console.log("pre-offer-came");
+        console.log(data);
+    });
+
     // caso haja uma desconexão
     // do socket por algum motivo
     // do lado cliente
