@@ -6,6 +6,7 @@ class view {
         this.EXTERNAL_CODE = document.querySelector('#personal_code_input');
         this.CHATBOX = document.querySelector('.chatbox');
         this.RECORD_ACTIONS = document.querySelector('.record_actions');
+        this.MENU = document.querySelector('.menu');
         this.NO_CALL = document.querySelector('.no_call');
 
         this.TOAST = {
@@ -36,14 +37,26 @@ class view {
         this.BTN_CALL = document.querySelector('.call');
         this.BTN_CAMERA = document.querySelector('.camera');
         this.BTN_GRAVAR = document.querySelector('.gravar');
+        this.BTN_STOP_GRAVAR = document.querySelector('button.btn_stop_gravar');
+        this.BTN_ENVIAR = document.querySelector('button.btn_enviar');
+
+        // açoes da tela
+        this.toggleMenu();
+        this.clickCopyPersonalCode();
+        this.clickMic();
+        this.clickGravar();
+        this.clickStopGravar();
+        this.clickEnviar();
     }
 
+    // setando no state o id do socket
     setSocketID = (socketID) => {
         this.state = {
             ...this.state,
             socketID,
 
         };
+        // setando no documento o socket registrado
         this.setPersonalCode (socketID);
     };
 
@@ -173,45 +186,68 @@ class view {
     }
 
     clickCopyPersonalCode = _=> {
-        const personalCode = this.getState().socketID;
-        navigator.clipboard && navigator.clipboard.writeText(personalCode);
-        this.toastShow('Código copiado!');
+        document.querySelector('button.btn-copy').addEventListener('click', _=> {
+            const personalCode = this.getState().socketID;
+            navigator.clipboard && navigator.clipboard.writeText(personalCode);
+            this.toastShow('Código copiado!');
+        });
     }
 
     // actions call
     clickMic () {
-        // se o mic estiver ativo
-        if (this.MIC) {
-            this.BTN_MIC.classList.add('btn_red');
-            this.BTN_MIC.querySelector('img').src = './utils/images/micOff.png';
-            this.MIC = false;
-            console.log('desativando mic');
-        }else{
-            this.BTN_MIC.classList.remove('btn_red');
-            this.BTN_MIC.querySelector('img').src = './utils/images/mic.png';
-            this.MIC = true;
-            console.log('ativando mic');
-        }
+        this.BTN_MIC.addEventListener('click', _=> {
+            // se o mic estiver ativo
+            if (this.MIC) {
+                this.BTN_MIC.classList.add('btn_red');
+                this.BTN_MIC.querySelector('img').src = './utils/images/micOff.png';
+                this.MIC = false;
+                console.log('desativando mic');
+            }else{
+                this.BTN_MIC.classList.remove('btn_red');
+                this.BTN_MIC.querySelector('img').src = './utils/images/mic.png';
+                this.MIC = true;
+                console.log('ativando mic');
+            }
+        });
     }
     clickGravar () {
-        if (!this.GRAVAR) {
-            this.RECORD_ACTIONS.classList.add('record_actions_show');
-            this.GRAVAR = true;
-            console.log('ativando gravação');
-        }
+        this.BTN_GRAVAR.addEventListener('click', _=> {
+            if (!this.GRAVAR) {
+                this.RECORD_ACTIONS.classList.add('record_actions_show');
+                this.GRAVAR = true;
+                console.log('ativando gravação');
+            }
+        });
     }
     clickStopGravar () {
-        if (this.GRAVAR) {
-            this.RECORD_ACTIONS.classList.remove('record_actions_show');
-            this.GRAVAR = false;
-            console.log('parando gravação');
-        }
+        this.BTN_STOP_GRAVAR.addEventListener('click', _=> {
+            if (this.GRAVAR) {
+                this.RECORD_ACTIONS.classList.remove('record_actions_show');
+                this.GRAVAR = false;
+                console.log('parando gravação');
+            }
+        });
     }
     clickEnviar () {
-        let msg = this.getInputMsg(); // recuperando a msg do input
-        if (msg==='') return false;
-        this.setInputMsg(''); // limpando a msg do input
-        this.addChatMensage(msg, true);
+        this.BTN_ENVIAR.addEventListener('click', _=> {
+            let msg = this.getInputMsg(); // recuperando a msg do input
+            if (msg==='') return false;
+            this.setInputMsg(''); // limpando a msg do input
+            this.addChatMensage(msg, true);
+        });
+    }
+
+
+    // ---- menu
+    toggleMenu =_=> {
+        this.MENU.querySelector('.menu-action').addEventListener('click', _=> {
+            let cls = Array.from(this.MENU.classList).filter(e => e==='menu-show');
+            if (cls.length>0) {
+                this.MENU.classList.remove('menu-show');
+            }else{
+                this.MENU.classList.add('menu-show');
+            }
+        });
     }
 }
 export default new view();
