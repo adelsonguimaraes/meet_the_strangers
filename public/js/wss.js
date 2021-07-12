@@ -17,7 +17,7 @@ class wss {
     }
 
 
-    setPreOffer = (data) => {
+    sendPreOffer = (data) => {
         socketIO.emit("pre-offer", data);
     }
 }

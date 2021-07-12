@@ -1,4 +1,3 @@
-import VIEW from './view.js';
 import WSS from './wss.js';
 
 

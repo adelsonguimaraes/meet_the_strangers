@@ -1,4 +1,4 @@
-import * as WEBRTC from "./webrtc.js";
+import WEBRTC from "./webrtc.js";
 
 class view {
     constructor () {
@@ -39,6 +39,7 @@ class view {
         this.BTN_GRAVAR = document.querySelector('.gravar');
         this.BTN_STOP_GRAVAR = document.querySelector('button.btn_stop_gravar');
         this.BTN_ENVIAR = document.querySelector('button.btn_enviar');
+        this.BTN_CONNECTIONG_CHAT = document.querySelector('button.btn_connecting_chat');
 
         // açoes da tela
         this.toggleMenu();
@@ -47,6 +48,7 @@ class view {
         this.clickGravar();
         this.clickStopGravar();
         this.clickEnviar();
+        this.connectingChat();
     }
 
     // setando no state o id do socket
@@ -137,10 +139,13 @@ class view {
     }
 
     connectingChat =_=> {
-        if (this.CALL) return alert('Não permitido durante call.');
-        WEBRTC.sendPreOffer({
-            type: 'CHAT',
-            cod: this.getExternalCode()
+        this.BTN_CONNECTIONG_CHAT.addEventListener('click', _=> {
+            if (this.CALL) return alert('Não permitido durante call.');
+
+            WEBRTC.sendPreOffer({
+                type: 'CHAT',
+                cod: this.getExternalCode()
+            });
         });
     }
     connectingVideo =_=> {
