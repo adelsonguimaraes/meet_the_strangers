@@ -43,8 +43,6 @@ class view {
         this.BTN_ENVIAR = document.querySelector('button.btn_enviar');
         this.BTN_CONNECTIONG_CHAT = document.querySelector('button.btn_connecting_chat');
         this.BTN_CONNECTIONG_VIDEO = document.querySelector('button.btn_connecting_video');
-        this.BTN_ACCEPT_CALL = document.querySelector('button.btn_accept_call');
-        this.BTN_REJECT_CALL = document.querySelector('button.btn_reject_call');
 
         // açoes da tela
         this.toggleMenu();
@@ -55,8 +53,6 @@ class view {
         this.clickEnviar();
         this.connectingChat();
         this.connectingVideo();
-        this.clickAcceptCall();
-        this.clickRejectCall();
     }
 
     // setando no state o id do socket
@@ -154,6 +150,9 @@ class view {
                 type: 'CHAT',
                 cod: this.getExternalCode()
             });
+
+            // mostando tela de chamada
+            this.showCallDialog('Chamando', false);
         });
     }
     connectingVideo =_=> {
@@ -174,35 +173,70 @@ class view {
         console.log('conectando ao video com desconhecido');
     }
 
-    showIncomingCallDialog = (TYPE, clickAcceptCallHandler, clickRejectCallHandler) => {
-        console.log("getting incoming call dialog");
+    showCallDialog = (TITLE, CALLING) => {
+
+        const btn_accept = `
+            <button class="btn_accept_call">
+                <img src="./utils/images/acceptCall.png">
+            </button>
+        `;
+        const btn_reject = `
+            <button class="btn_reject_call">
+                <img src="./utils/images/rejectCall.png">
+            </button>
+        `;
+
+        const chamada = document.createElement('div');
+        chamada.classList.add('chamada');
+        chamada.innerHTML = `
+            <div class="content">
+                <p>${TITLE}</p>
+                <img class="avatar" src="./utils/images/dialogAvatar.png">
+                <div class="buttons">
+                    ${(CALLING) ? btn_accept : ''}
+                    ${btn_reject}
+                </div>
+            </div>
+        `;
+
+        
+        (this.CHAMADA_MODAL!==null) && this.CHAMADA_MODAL.remove();
+        document.body.appendChild(chamada);
+        this.CHAMADA_MODAL = document.querySelector('.chamada');
+
+        if (CALLING) this.clickAcceptCall();
+        this.clickRejectCall();
+
         this.CHAMADA_MODAL.classList.add('chamada_show');
         this.AUDIO = new Audio('./../utils/sons/ringtone.mp3');
         this.AUDIO.volume = 0.3;
         this.AUDIO.loop = true;
         this.AUDIO.play();
 
-        // tipo de chamada
-        this.CHAMADA_MODAL.querySelector('span.chamada_tipo').innerHTML = TYPE;
-
         setTimeout(_=>{
             this.rejectCall();
             console.log('chamada perdida');
         }, 30000);
     }
+
+    showIncomingCallDialog = (TYPE, clickAcceptCallHandler, clickRejectCallHandler) => {
+        console.log("getting incoming call dialog");
+
+        this.showCallDialog(`Chamada de ${TYPE}`, true);
+    }
     clickAcceptCall =_=> {
-        this.BTN_ACCEPT_CALL.addEventListener('click', _=> {
+        document.querySelector('button.btn_accept_call').addEventListener('click', _=> {
             console.log('chamada aceita');
         });
     }
     clickRejectCall =_=> {
-        this.BTN_REJECT_CALL.addEventListener('click', _=> {
+        document.querySelector('button.btn_reject_call').addEventListener('click', _=> {
             console.log('chamada rejeitada');
             this.rejectCall();
         });
     }
     rejectCall =_=> {
-        this.CHAMADA_MODAL.classList.remove('chamada_show');
+        this.CHAMADA_MODAL.remove();
         this.AUDIO.pause();
     }
 

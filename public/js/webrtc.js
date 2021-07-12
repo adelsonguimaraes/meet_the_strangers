@@ -13,10 +13,17 @@ class webrtc {
     sendPreOffer = (obj) => {
         if (obj.type===undefined || obj.type===undefined ==='' || obj.cod===undefined || obj.cod==='') return console.error('webrtc->sendPreOffer: Type e Cod não podem ser nulos.');
         
-        this.DATA.TYPE = obj.type;
-        this.DATA.COD = obj.cod;
+        this.connectedUserDetails = {
+            CODE: obj.type,
+            TYPE: obj.cod
+        };
 
-        WSS.sendPreOffer(this.DATA);
+        if (obj.type === 'CHAT' || obj.type === 'VIDEO') {
+            this.DATA.TYPE = obj.type;
+            this.DATA.COD = obj.cod;
+
+            WSS.sendPreOffer(this.DATA);
+        }
     }
 
     handlePreOffer = (data) => {

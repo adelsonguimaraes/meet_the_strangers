@@ -149,7 +149,7 @@ section {
   z-index: 10;
   align-items: center;
   justify-content: center;
-  display: none;
+  display: flex;
 }
 .chamada_show {
   display: flex;
