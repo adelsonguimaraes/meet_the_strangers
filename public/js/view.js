@@ -152,7 +152,7 @@ class view {
             });
 
             // mostando tela de chamada
-            this.showCallDialog('Chamando', false);
+            this.showCallDialog('Chamandols', false);
         });
     }
     connectingVideo =_=> {
