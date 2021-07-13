@@ -152,7 +152,7 @@ class view {
             });
 
             // mostando tela de chamada
-            this.showCallDialog('Chamandols', false);
+            this.showCallDialog('Chamando', false);
         });
     }
     connectingVideo =_=> {
@@ -214,12 +214,12 @@ class view {
         this.AUDIO.play();
 
         setTimeout(_=>{
-            this.rejectCall();
+            this.removeCallDialog();
             console.log('chamada perdida');
         }, 30000);
     }
 
-    showIncomingCallDialog = (TYPE, clickAcceptCallHandler, clickRejectCallHandler) => {
+    showIncomingCallDialog = (TYPE) => {
         console.log("getting incoming call dialog");
 
         this.showCallDialog(`Chamada de ${TYPE}`, true);
@@ -227,15 +227,18 @@ class view {
     clickAcceptCall =_=> {
         document.querySelector('button.btn_accept_call').addEventListener('click', _=> {
             console.log('chamada aceita');
+            WEBRTC.acceptCallHandler();
+            this.removeCallDialog();
         });
     }
     clickRejectCall =_=> {
         document.querySelector('button.btn_reject_call').addEventListener('click', _=> {
             console.log('chamada rejeitada');
-            this.rejectCall();
+            WEBRTC.rejectCallHandler();
+            this.removeCallDialog();
         });
     }
-    rejectCall =_=> {
+    removeCallDialog =_=> {
         this.CHAMADA_MODAL.remove();
         this.AUDIO.pause();
     }

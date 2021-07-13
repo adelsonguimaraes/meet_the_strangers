@@ -1,4 +1,5 @@
 import VIEW from "./view.js";
+import wss from "./wss.js";
 import WSS from "./wss.js"
 
 class webrtc {
@@ -33,17 +34,53 @@ class webrtc {
             TYPE
         };
 
-        const acceptCallHandler =_=> {
-            console.log('accept call');
-        }
-        const rejectCallHandler =_=> {
-            console.log('reject call');
-        }
-
         // se o tipo da chamada recebida for chat ou video
         if (TYPE==='CHAT' || TYPE==='VIDEO') {
             console.log('showing call dialog');
-            VIEW.showIncomingCallDialog(TYPE, acceptCallHandler, rejectCallHandler);
+            VIEW.showIncomingCallDialog(TYPE);
+        }
+    }
+
+    acceptCallHandler =_=> {
+        console.log('accept call');
+        this.sendPreOfferAnswer('CALL_ACCEPTED');
+    }
+    rejectCallHandler =_=> {
+        console.log('reject call');
+        this.sendPreOfferAnswer('CALL_REJECTED');
+    }
+    
+
+    sendPreOfferAnswer = (preOfferAnswer) => {
+        const data = {
+            callerSocketID: this.connectedUserDetails.socketID,
+            preOfferAnswer
+        }
+        WSS.sendPreOfferAnswer(data);
+    }
+
+    handlePreOfferAnswer = (data) => {
+        const { preOfferAnswer } = data;
+        console.log('pre offer answer came');
+        console.log(data);
+
+        // removendo a tela de chamada ao receber respostar da call
+        VIEW.removeCallDialog();
+
+        if (preOfferAnswer === 'CALLEE_NOT_FOUND') {
+            // mostrar dialogo de receptor não localizado
+        }
+
+        if (preOfferAnswer === 'CALL_UNAVAILABLE') {
+            // mostrar dialogo de receptor não foi capaz de conectar
+        }
+
+        if (preOfferAnswer === 'CALL_REJECTED') {
+            // mostrar dialogo de receptor recusou a conexão
+        }
+
+        if (preOfferAnswer === 'CALL_ACCEPTED') {
+            // enviar oferta
         }
     }
 }

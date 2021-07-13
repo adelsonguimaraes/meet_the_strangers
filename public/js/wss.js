@@ -19,12 +19,20 @@ class wss {
         socket.on('pre-offer', (data) => {
             WEBRTC.handlePreOffer(data);
         })
+
+        socket.on('pre-offer-answer', (data) => {
+            WEBRTC.handlePreOfferAnswer(data);
+        });
     }
 
 
     sendPreOffer = (data) => {
         console.log("emmiting to server pre offer event");
         socketIO.emit("pre-offer", data);
+    }
+
+    sendPreOfferAnswer = (data) => {
+        socketIO.emit('pre-offer-answer', (data));
     }
 }
 export default new wss();
