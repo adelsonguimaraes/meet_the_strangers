@@ -65,18 +65,33 @@ class webrtc {
         console.log(data);
 
         // removendo a tela de chamada ao receber respostar da call
-        VIEW.removeCallDialog();
+        // VIEW.removeCallDialog();
 
         if (preOfferAnswer === 'CALLEE_NOT_FOUND') {
             // mostrar dialogo de receptor não localizado
+            VIEW.showCallDialog(preOfferAnswer, {
+                accepted: false,
+                rejected: false,
+                ok: true
+            });
         }
 
         if (preOfferAnswer === 'CALL_UNAVAILABLE') {
             // mostrar dialogo de receptor não foi capaz de conectar
+            VIEW.showCallDialog(preOfferAnswer, {
+                accepted: false,
+                rejected: false,
+                ok: true
+            });
         }
 
         if (preOfferAnswer === 'CALL_REJECTED') {
             // mostrar dialogo de receptor recusou a conexão
+            VIEW.showCallDialog(preOfferAnswer, {
+                accepted: false,
+                rejected: false,
+                ok: true
+            });
         }
 
         if (preOfferAnswer === 'CALL_ACCEPTED') {

@@ -152,7 +152,11 @@ class view {
             });
 
             // mostando tela de chamada
-            this.showCallDialog('Chamando', false);
+            this.showCallDialog(`Chamando`, {
+                accepted: false,
+                rejected: true,
+                ok: false
+            });
         });
     }
     connectingVideo =_=> {
@@ -173,7 +177,7 @@ class view {
         console.log('conectando ao video com desconhecido');
     }
 
-    showCallDialog = (TITLE, CALLING) => {
+    showCallDialog = (TITLE, BUTTONS) => {
 
         const btn_accept = `
             <button class="btn_accept_call">
@@ -185,6 +189,11 @@ class view {
                 <img src="./utils/images/rejectCall.png">
             </button>
         `;
+        const btn_ok = `
+            <button class="btn_ok">
+                Fechar
+            </button>
+        `;
 
         const chamada = document.createElement('div');
         chamada.classList.add('chamada');
@@ -193,8 +202,9 @@ class view {
                 <p>${TITLE}</p>
                 <img class="avatar" src="./utils/images/dialogAvatar.png">
                 <div class="buttons">
-                    ${(CALLING) ? btn_accept : ''}
-                    ${btn_reject}
+                    ${(BUTTONS.accepted) ? btn_accept : ''}
+                    ${(BUTTONS.rejected) ? btn_reject : ''}
+                    ${(BUTTONS.ok) ? btn_ok : ''}
                 </div>
             </div>
         `;
@@ -204,8 +214,9 @@ class view {
         document.body.appendChild(chamada);
         this.CHAMADA_MODAL = document.querySelector('.chamada');
 
-        if (CALLING) this.clickAcceptCall();
-        this.clickRejectCall();
+        if (BUTTONS.accepted) this.clickAcceptCall();
+        if (BUTTONS.rejected) this.clickRejectCall();
+        if (BUTTONS.ok) this.clickOkCall();
 
         this.CHAMADA_MODAL.classList.add('chamada_show');
         this.AUDIO = new Audio('./../utils/sons/ringtone.mp3');
@@ -222,7 +233,11 @@ class view {
     showIncomingCallDialog = (TYPE) => {
         console.log("getting incoming call dialog");
 
-        this.showCallDialog(`Chamada de ${TYPE}`, true);
+        this.showCallDialog(`Chamada de ${TYPE}`, {
+            accepted: true,
+            rejected: true,
+            ok: false
+        });
     }
     clickAcceptCall =_=> {
         document.querySelector('button.btn_accept_call').addEventListener('click', _=> {
@@ -237,6 +252,9 @@ class view {
             WEBRTC.rejectCallHandler();
             this.removeCallDialog();
         });
+    }
+    clickOkCall =_=>{
+        this.removeCallDialog();
     }
     removeCallDialog =_=> {
         this.CHAMADA_MODAL.remove();
