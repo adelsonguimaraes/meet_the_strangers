@@ -210,24 +210,30 @@ class view {
         `;
 
         
-        (this.CHAMADA_MODAL!==null) && this.CHAMADA_MODAL.remove();
+        // if (this.CHAMADA_MODAL!==null) this.CHAMADA_MODAL.remove();
+        
         document.body.appendChild(chamada);
-        this.CHAMADA_MODAL = document.querySelector('.chamada');
+        this.CHAMADA_MODAL = chamada;
 
         if (BUTTONS.accepted) this.clickAcceptCall();
         if (BUTTONS.rejected) this.clickRejectCall();
         if (BUTTONS.ok) this.clickOkCall();
 
-        this.CHAMADA_MODAL.classList.add('chamada_show');
-        this.AUDIO = new Audio('./../utils/sons/ringtone.mp3');
-        this.AUDIO.volume = 0.3;
-        this.AUDIO.loop = true;
-        this.AUDIO.play();
+        // this.CHAMADA_MODAL.classList.add('chamada_show');
 
-        setTimeout(_=>{
-            this.removeCallDialog();
-            console.log('chamada perdida');
-        }, 30000);
+        /// se tiver o botão 'ok' não é uma chamada
+        if (!BUTTONS.ok) {
+            this.AUDIO = new Audio('./../utils/sons/ringtone.mp3');
+            this.AUDIO.volume = 0.3;
+            this.AUDIO.loop = true;
+            this.AUDIO.play();
+            
+
+            // setTimeout(_=>{
+            //     this.removeCallDialog();
+            //     console.log('chamada perdida');
+            // }, 30000);
+        }
     }
 
     showIncomingCallDialog = (TYPE) => {
@@ -254,10 +260,12 @@ class view {
         });
     }
     clickOkCall =_=>{
-        this.removeCallDialog();
+        document.querySelector('button.btn_ok').addEventListener('click', _=>{
+            this.removeCallDialog();
+        });
     }
     removeCallDialog =_=> {
-        this.CHAMADA_MODAL.remove();
+        if (this.CHAMADA_MODAL!==null) this.CHAMADA_MODAL.remove();
         this.AUDIO.pause();
     }
 

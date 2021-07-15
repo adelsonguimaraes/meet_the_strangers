@@ -87,6 +87,7 @@ class webrtc {
 
         if (preOfferAnswer === 'CALL_REJECTED') {
             // mostrar dialogo de receptor recusou a conexão
+            VIEW.removeCallDialog();
             VIEW.showCallDialog(preOfferAnswer, {
                 accepted: false,
                 rejected: false,
