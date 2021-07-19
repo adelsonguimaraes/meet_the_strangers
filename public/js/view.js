@@ -10,6 +10,10 @@ class view {
         this.MENU = document.querySelector('.menu');
         this.NO_CALL = document.querySelector('.no_call');
 
+        // media
+        this.LOCAL_VIDEO = document.querySelector('video.video_local');
+        this.REMOTE_VIDEO = document.querySelector('video.video_remote');
+
         this.TOAST = {
             el: document.querySelector('.toast'),
             show: false,
@@ -34,6 +38,7 @@ class view {
         };
 
         // botoes
+        this.CALL_ACTIONS = document.querySelector('div.call_actions');
         this.BTN_MIC = document.querySelector('.mic');
         this.BTN_FOTO = document.querySelector('.foto');
         this.BTN_CALL = document.querySelector('.call');
@@ -105,6 +110,23 @@ class view {
         return this.state;
     }
 
+    // atualizando o video local
+    updateLocalVideo = (stream) => {
+        // adicionando como source a stream
+        this.LOCAL_VIDEO.srcObject = stream;
+
+        // ao carregar os dados, acionar o player
+        this.LOCAL_VIDEO.addEventListener("loadedmetadata", _=> {
+            this.LOCAL_VIDEO.play();
+        });
+    }
+
+    updateRemoteVideo = (stream) => {
+        // adicionando como source a stream remota
+        this.REMOTE_VIDEO.srcObject = stream;
+    }
+
+    // mensagens/alertas em toast
     toastShow = (msg) =>{
         this.TOAST.el.innerHTML = msg;
         this.TOAST.el.classList.add('toast_show');
@@ -117,6 +139,12 @@ class view {
             clearTimeout(this.TOAST.timer);
             this.TOAST.timer = null;
         }, 3000);
+    }
+
+    // mostrar botões de ação
+    showActionButtons =_=> {
+        console.log('teste');
+        this.CALL_ACTIONS.classList.add('call_actions_show');
     }
 
 
@@ -250,6 +278,7 @@ class view {
             console.log('chamada aceita');
             WEBRTC.acceptCallHandler();
             this.removeCallDialog();
+            this.showActionButtons();
         });
     }
     clickRejectCall =_=> {

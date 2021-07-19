@@ -65,6 +65,18 @@ io.on('connection', (socket) => {
         }
     });
 
+    socket.on('WebRTC-signaling', (data) => {
+        const { connectedUserSocketID } = data;
+
+        const connectedPeer = connectedPeers.find(
+            (peerSocketID) => perrSocketID === connectedUserSocketID
+        );
+
+        if (connectedPeer) {
+            io.to(connectedUserSokectID).emit('webRTC-signaling', data);
+        }
+    });
+
     // caso haja uma desconexão
     // do socket por algum motivo
     // do lado cliente

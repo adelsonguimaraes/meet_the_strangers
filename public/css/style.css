@@ -292,6 +292,10 @@ section {
   bottom: 0;
   text-align: center;
   padding: 20px 0;
+  display: none;
+}
+.center .box_video .call_actions_show{ 
+  display: block;
 }
 .center .box_video .call_actions ul {
   list-style: none;
