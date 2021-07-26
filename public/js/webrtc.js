@@ -100,6 +100,7 @@ class webrtc {
         if (TYPE==='CHAT' || TYPE==='VIDEO') {
             console.log('showing call dialog');
             VIEW.showIncomingCallDialog(TYPE);
+            VIEW.playSound();
         }
     }
 
@@ -130,9 +131,16 @@ class webrtc {
         // removendo a tela de chamada ao receber respostar da call
         // VIEW.removeCallDialog();
 
+        // -- quando haver sucesso na chamada (pre-oferta)
+        if (preOfferAnswer === 'CALLEE_FOUND') {
+            // mostrar dialogo de receptor não localizado
+            VIEW.playSound();
+        }
+
         if (preOfferAnswer === 'CALLEE_NOT_FOUND') {
             // mostrar dialogo de receptor não localizado
-            VIEW.showCallDialog(preOfferAnswer, {
+            VIEW.removeCallDialog();
+            VIEW.showCallDialog('Parceiro não encontrado, verifique o código.', {
                 accepted: false,
                 rejected: false,
                 ok: true
@@ -141,7 +149,8 @@ class webrtc {
 
         if (preOfferAnswer === 'CALL_UNAVAILABLE') {
             // mostrar dialogo de receptor não foi capaz de conectar
-            VIEW.showCallDialog(preOfferAnswer, {
+            VIEW.removeCallDialog();
+            VIEW.showCallDialog('Impossível chamar, possívelmente ocupado.', {
                 accepted: false,
                 rejected: false,
                 ok: true
@@ -151,7 +160,7 @@ class webrtc {
         if (preOfferAnswer === 'CALL_REJECTED') {
             // mostrar dialogo de receptor recusou a conexão
             VIEW.removeCallDialog();
-            VIEW.showCallDialog(preOfferAnswer, {
+            VIEW.showCallDialog('Chamada rejeitada', {
                 accepted: false,
                 rejected: false,
                 ok: true

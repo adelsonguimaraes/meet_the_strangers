@@ -180,7 +180,7 @@ class view {
             });
 
             // mostando tela de chamada
-            this.showCallDialog(`Chamando`, {
+            this.showCallDialog(`Chamando Chat`, {
                 accepted: false,
                 rejected: true,
                 ok: false
@@ -193,6 +193,13 @@ class view {
             WEBRTC.sendPreOffer({
                 type: 'VIDEO',
                 cod: this.getExternalCode()
+            });
+            
+            // mostando tela de chamada
+            this.showCallDialog(`Chamando Vídeo`, {
+                accepted: false,
+                rejected: true,
+                ok: false
             });
         });
     }
@@ -248,20 +255,15 @@ class view {
         if (BUTTONS.ok) this.clickOkCall();
 
         // this.CHAMADA_MODAL.classList.add('chamada_show');
+    }
 
-        /// se tiver o botão 'ok' não é uma chamada
-        if (!BUTTONS.ok) {
-            this.AUDIO = new Audio('./../utils/sons/ringtone.mp3');
-            this.AUDIO.volume = 0.3;
-            this.AUDIO.loop = true;
-            this.AUDIO.play();
-            
+    playSound = _=> {
+        console.log("sucesso na chamada");
 
-            // setTimeout(_=>{
-            //     this.removeCallDialog();
-            //     console.log('chamada perdida');
-            // }, 30000);
-        }
+        this.AUDIO = new Audio('./../utils/sons/ringtone.mp3');
+        this.AUDIO.volume = 0.3;
+        this.AUDIO.loop = true;
+        this.AUDIO.play();
     }
 
     showIncomingCallDialog = (TYPE) => {
@@ -295,7 +297,10 @@ class view {
     }
     removeCallDialog =_=> {
         if (this.CHAMADA_MODAL!==null) this.CHAMADA_MODAL.remove();
-        this.AUDIO.pause();
+        if (this.AUDIO!==null) {
+            this.AUDIO.pause();
+            this.AUDIO = null;
+        }
     }
 
     // chat

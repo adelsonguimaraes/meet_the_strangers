@@ -44,8 +44,20 @@ io.on('connection', (socket) => {
                 TYPE
             };
 
-            // enviando a oferta para o dono do socketid
+            // enviando a oferta para o parceiro
             io.to(COD).emit("pre-offer", data);
+            
+            // enviando confirmação de sucesso na chamada
+            const _data = {
+                preOfferAnswer: 'CALLEE_FOUND',
+            }
+            io.to(socket.id).emit("pre-offer-answer", _data);
+        }else{
+            // --- se o parceiro não for encontrado
+            const data = {
+                preOfferAnswer: 'CALLEE_NOT_FOUND',
+            };
+            io.to(socket.id).emit('pre-offer-answer', data);
         }
     });
 
