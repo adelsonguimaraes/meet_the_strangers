@@ -49,7 +49,7 @@ io.on('connection', (socket) => {
             
             // enviando confirmação de sucesso na chamada
             const _data = {
-                preOfferAnswer: 'CALLEE_FOUND',
+                preOfferAnswer: 'CALLEE_FOUND'
             }
             io.to(socket.id).emit("pre-offer-answer", _data);
         }else{

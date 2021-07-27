@@ -124,6 +124,7 @@ class webrtc {
     }
 
     handlePreOfferAnswer = (data) => {
+
         const { preOfferAnswer } = data;
         console.log('pre offer answer came');
         console.log(data);

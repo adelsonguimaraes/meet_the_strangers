@@ -308,6 +308,10 @@ section {
 .center .box_video .call_actions .btn_red {
   background-color: rgb(154 60 60) !important;
 }
+/* classe para mostrar os botões da call */
+.center .box_video .call_actions .button-show {
+  display: initial;
+}
 .center .box_video .call_actions button {
   padding: 10px;
   border-radius: 50px;
@@ -317,15 +321,18 @@ section {
   box-sizing: border-box;
   margin: 0 10px;
   cursor: pointer;
+  display: none;
 }
 .center .box_video .call_actions button:hover {
   background-color: rgba(129, 129, 129, 0.877);
 }
+/* call */
 .center .box_video .call_actions .call {
   width: 100px;
   border-radius: 5px;
   padding: 15px 10px;
   background-color: #9A3C3C;
+  display: initial;
 }
 .center .box_video .call_actions .call:hover {
   background-color: #b64545;
@@ -423,4 +430,9 @@ section {
 }
 .toast_show {
   top: 8px;
+}
+
+/* display none */
+.show {
+  display: block;
 }

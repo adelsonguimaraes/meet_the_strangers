@@ -143,8 +143,11 @@ class view {
 
     // mostrar botões de ação
     showActionButtons =_=> {
-        console.log('teste');
         this.CALL_ACTIONS.classList.add('call_actions_show');
+    }
+
+    showActionAllButtons =_=> {
+        this.CALL_ACTIONS.querySelector('button .mic').classList.add('button-show');
     }
 
 
