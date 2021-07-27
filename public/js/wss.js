@@ -36,6 +36,7 @@ class wss {
     }
 
 
+    // --- enviando a oferta para o servidor
     sendPreOffer = (data) => {
         console.log("emmiting to server pre offer event");
         socketIO.emit("pre-offer", data);
