@@ -64,6 +64,7 @@ class webrtc {
         }
 
         // adicionando a stream do parceiro conectado
+        // verificando o type que foi configurado na variável de controle
         if (this.connectedUserDetails.callType === 'VIDEO_PERSONAL_CODE') {
             const localStream = VIEW.getState().localStream;
 
@@ -76,6 +77,8 @@ class webrtc {
     sendPreOffer = (obj) => {
         if (obj.type===undefined || obj.type===undefined ==='' || obj.cod===undefined || obj.cod==='') return console.error('webrtc->sendPreOffer: Type e Cod não podem ser nulos.');
         
+        // passando as informações para
+        // a variável de controle
         this.connectedUserDetails = {
             CODE: obj.type,
             TYPE: obj.cod
@@ -89,23 +92,35 @@ class webrtc {
         }
     }
 
+    // recebendo uma oferta de chamada 
     handlePreOffer = (data) => {
+        // desestruturando o data
         const { TYPE, callerSocketID} = data;
+
+        // salvando as informações no controle
         this.connectedUserDetails = {
             socketID: callerSocketID,
             TYPE
         };
 
         // se o tipo da chamada recebida for chat ou video
+        // ativamos a tela de chamada e o som
         if (TYPE==='CHAT' || TYPE==='VIDEO') {
-            console.log('showing call dialog');
+            console.log('showing call dialog ', TYPE);
             VIEW.showIncomingCallDialog(TYPE);
             VIEW.playSound();
         }
     }
 
+    // botão de aceitar chamada clicado
     acceptCallHandler =_=> {
         console.log('accept call');
+
+        // verificando o tipo de chamada
+        // consultando nas variáveis de controle
+        const { TYPE } = this.connectedUserDetails;
+        if (TYPE==='VIDEO') {}
+
         this.sendPreOfferAnswer('CALL_ACCEPTED');
         this.createPeerConnection();
     }
@@ -115,6 +130,7 @@ class webrtc {
     }
     
 
+    // enviando a resposta da oferta
     sendPreOfferAnswer = (preOfferAnswer) => {
         const data = {
             callerSocketID: this.connectedUserDetails.socketID,
@@ -169,19 +185,30 @@ class webrtc {
         }
 
         if (preOfferAnswer === 'CALL_ACCEPTED') {
+            // desestruturando do controle o type
+            const {TYPE} = this.DATA;
+
             // remove a tela de dialogo de chamada
             VIEW.removeCallDialog();
             VIEW.showActionButtons();
+            
+            // se o tipo for chamada de vídeo
+            // ativamos os botões de video
+            VIEW.showActionAllButtons();
+
             this.createPeerConnection();
             this.sendWebRTCOffer();
         }
     }
 
     sendWebRTCOffer = async () => {
-        const offer = await this.peerConnection.creatOffer();
+        // criando oferta de aperto de mao
+        const offer = await this.peerConnection.createOffer();
         await this.peerConnection.setLocalDescription(offer);
+
+        // enviando oferta de aperto de mao
         WSS.sendDataUsingWebRTCSignaling({
-            connectedUserSocketID: this.connectedUserDetails.socketID,
+            connectedUserSocketID: this.connectedUserDetails.callerSocketID,
             type: 'OFFER',
             offer: offer
         });

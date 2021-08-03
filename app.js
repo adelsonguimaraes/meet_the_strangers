@@ -39,15 +39,19 @@ io.on('connection', (socket) => {
         // se estiver conectado
         if (connectedPeer) {
             
+            // montando o data com id do socket chamando
+            // e o tipo da chamada
             const data = {
                 callerSocketID: socket.id,
                 TYPE
             };
 
             // enviando a oferta para o parceiro
+            // que está sendo chamado
             io.to(COD).emit("pre-offer", data);
             
             // enviando confirmação de sucesso na chamada
+            // para o usuário que está chamando
             const _data = {
                 preOfferAnswer: 'CALLEE_FOUND'
             }
@@ -64,27 +68,36 @@ io.on('connection', (socket) => {
 
     // resposta da oferta de conexão
     socket.on('pre-offer-answer', (data) => {
+        // desestrutura o socketID do parceiro
+        // que fez a oferta
         const { callerSocketID } = data;
 
         // verificando pelo id da oferta
-        // se está conectado
+        // se ainda está conectado
         const connectedPeer = connectedPeers.find(
             (peerSocketID) => peerSocketID === callerSocketID
         );
 
+        // se ainda estiver conectado emit um sinal de resposta
         if (connectedPeer) {
             io.to(callerSocketID).emit('pre-offer-answer', data);
         }
     });
 
+    // recendo um sinal handshake web rtc (aperto de mao)
     socket.on('WebRTC-signaling', (data) => {
+        
+        // desestruturando o connecedUserSocketID
         const { connectedUserSocketID } = data;
 
+        // verificando se o mesmo está conectado
         const connectedPeer = connectedPeers.find(
-            (peerSocketID) => perrSocketID === connectedUserSocketID
+            (peerSocketID) => peerSocketID === connectedUserSocketID
         );
 
+        // se estiver conectado emitimos um sinal para o usuário
         if (connectedPeer) {
+            console.log("emmiting handshake to user");
             io.to(connectedUserSokectID).emit('webRTC-signaling', data);
         }
     });

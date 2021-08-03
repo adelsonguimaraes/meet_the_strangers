@@ -147,7 +147,10 @@ class view {
     }
 
     showActionAllButtons =_=> {
-        this.CALL_ACTIONS.querySelector('button .mic').classList.add('button-show');
+        this.CALL_ACTIONS.querySelector('button.mic').classList.add('button-show');
+        this.CALL_ACTIONS.querySelector('button.foto').classList.add('button-show');
+        this.CALL_ACTIONS.querySelector('button.camera').classList.add('button-show');
+        this.CALL_ACTIONS.querySelector('button.gravar').classList.add('button-show');
     }
 
 
