@@ -206,6 +206,8 @@ class webrtc {
         const offer = await this.peerConnection.createOffer();
         await this.peerConnection.setLocalDescription(offer);
 
+        console.log(this.connectedUserDetails);
+
         // enviando oferta de aperto de mao
         WSS.sendDataUsingWebRTCSignaling({
             connectedUserSocketID: this.connectedUserDetails.callerSocketID,

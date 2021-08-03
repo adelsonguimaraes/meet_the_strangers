@@ -28,7 +28,7 @@ class wss {
         // recebendo sinal de aperto de mao do webrtc
         socket.on('webRTC-signaling', (data) => {
 
-            console.log(data);
+            console.log("Received signal handshake", data);
 
             switch (data.type) {
                 case 'OFFER':
