@@ -180,6 +180,7 @@ class view {
         this.BTN_CONNECTIONG_CHAT.addEventListener('click', _=> {
             if (this.CALL) return alert('Não permitido durante call.');
 
+            // enviando a pre oferta
             WEBRTC.sendPreOffer({
                 type: 'CHAT',
                 cod: this.getExternalCode()

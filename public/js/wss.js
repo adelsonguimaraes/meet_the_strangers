@@ -8,6 +8,9 @@ class wss {
 
     }
 
+    // repções de chamdas do servidor
+    // quando o servidor emite um sinal via socket io
+    // recebemos aqui via nome do sinal
     registerSocketsEvents = (socket) => {
         socketIO = socket;
         
@@ -16,11 +19,12 @@ class wss {
             VIEW.setSocketID(socket.id);
         });
 
-        // --- recebendo uma oferta de chamada
+        // --- recebendo uma oferta de chamada (receptor)
         socket.on('pre-offer', (data) => {
             WEBRTC.handlePreOffer(data);
         })
 
+        // --- recebendo a resposta da oferta (emissor)
         socket.on('pre-offer-answer', (data) => {
             WEBRTC.handlePreOfferAnswer(data);
         });

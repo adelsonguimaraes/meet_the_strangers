@@ -1,5 +1,4 @@
 import VIEW from "./view.js";
-import wss from "./wss.js";
 import WSS from "./wss.js"
 
 class webrtc {
@@ -14,7 +13,7 @@ class webrtc {
             TYPE: 'CHAT',
             COD: null
         };
-        this.CONFIGURARION = {
+        this.CONFIGURATION = {
             iceServers: [
                 {
                     urls: 'stun:stun.l.google.com:13902'
@@ -38,10 +37,10 @@ class webrtc {
 
     // --- criando a conexão peer
     createPeerConnection = () => {
-        this.peerConnection = new RTCPeerConnection(this.CONFIGURARION);
+        this.peerConnection = new RTCPeerConnection(this.CONFIGURATION);
 
         this.peerConnection.onicecandidate = (event) => {
-            console.log('geeting ice candidates from stun server');
+            console.log('obtendo ice candidates do servidor stun');
             if (event.candidate) {
                 // --- enviar o ice candidate para outro par
             }
@@ -80,9 +79,12 @@ class webrtc {
         // passando as informações para
         // a variável de controle
         this.connectedUserDetails = {
-            CODE: obj.type,
-            TYPE: obj.cod
+            CODE: obj.cod,
+            TYPE: obj.type
         };
+
+        // primeira chamada do connected user details
+        console.log('#1 chamando', this.connectedUserDetails);
 
         if (obj.type === 'CHAT' || obj.type === 'VIDEO') {
             this.DATA.TYPE = obj.type;
@@ -116,12 +118,10 @@ class webrtc {
     acceptCallHandler =_=> {
         console.log('accept call');
 
-        // verificando o tipo de chamada
-        // consultando nas variáveis de controle
-        const { TYPE } = this.connectedUserDetails;
-        if (TYPE==='VIDEO') {}
-
+        // enviando para o sevidor o aviso de aceite
         this.sendPreOfferAnswer('CALL_ACCEPTED');
+
+        // abrindo a conexão de p2p
         this.createPeerConnection();
     }
     rejectCallHandler =_=> {
@@ -132,6 +132,8 @@ class webrtc {
 
     // enviando a resposta da oferta
     sendPreOfferAnswer = (preOfferAnswer) => {
+
+
         const data = {
             callerSocketID: this.connectedUserDetails.socketID,
             preOfferAnswer
@@ -139,6 +141,7 @@ class webrtc {
         WSS.sendPreOfferAnswer(data);
     }
 
+    // resposta da pre-oferta (emissor)
     handlePreOfferAnswer = (data) => {
 
         const { preOfferAnswer } = data;
@@ -194,6 +197,7 @@ class webrtc {
             
             // se o tipo for chamada de vídeo
             // ativamos os botões de video
+            console.log(TYPE);
             VIEW.showActionAllButtons();
 
             this.createPeerConnection();
@@ -206,7 +210,8 @@ class webrtc {
         const offer = await this.peerConnection.createOffer();
         await this.peerConnection.setLocalDescription(offer);
 
-        console.log(this.connectedUserDetails);
+        // seegunda chamada do connected user details
+        console.log('#2 chamando', this.connectedUserDetails);
 
         // enviando oferta de aperto de mao
         WSS.sendDataUsingWebRTCSignaling({

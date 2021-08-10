@@ -34,7 +34,6 @@ io.on('connection', (socket) => {
             (peerSocketID) => peerSocketID === COD
         );
 
-        console.log(connectedPeer);
 
         // se estiver conectado
         if (connectedPeer) {
